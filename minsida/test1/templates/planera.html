@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Title</title>
+   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.23/af-2.3.5/b-1.6.5/b-flash-1.6.5/b-html5-1.6.5/cr-1.5.3/r-2.2.7/sc-2.0.3/sb-1.0.1/sp-1.2.2/sl-1.3.1/datatables.min.css"/>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.23/af-2.3.5/b-1.6.5/b-flash-1.6.5/b-html5-1.6.5/cr-1.5.3/r-2.2.7/sc-2.0.3/sb-1.0.1/sp-1.2.2/sl-1.3.1/datatables.min.js"></script>
+    <script>
+    $(document).ready(function() {
+    $('#example').DataTable();
+} );
+    </script>
+
+
+</head>
+<body>
+ {% extends "menu.html" %}
+ {% block page_content %}
+{% load crispy_forms_tags %}
+
+
+<br>
+
+   <table id="example" class="display">
+  <thead>
+    <tr>
+         <th scope="col">AO-NR</th>
+        <th scope="col">OBJEKT-ID</th>
+         <th scope="col">DIREKTIV</th>
+         <th scope="col">AVDELNING</th>
+        <th scope="col">AVSTÄLLNING UTFÖRD</th>
+         <th scope="col">OPERATÖR</th>
+          <th scope="col">LÅSLISTA</th>
+         <th scope="col">UTFÖRARE</th>
+         <th scope="col">START</th>
+        <th scope="col">AVSLUT</th>
+        <th scope="col"></th>
+         <th scope="col"></th>
+    </tr>
+  </thead>
+          {% for namnlista in context %}
+      <tbody>
+    <tr>
+        <td class="align-middle">{{ namnlista.ao}}</td>
+        <td class="align-middle">{{ namnlista.objektid}}</td>
+        <td class="align-middle">{{ namnlista.direktiv }}</td>
+        <td class="align-middle">{{ namnlista.avd}}</td>
+         <td class="align-middle">
+              <i class="fas fa-lock">&nbsp;{{ namnlista.avstallt_datum}}</i>
+         </td>
+         <td class="align-middle">
+            <i class="fas fa-user">&nbsp;{{ namnlista.operator}}
+              </i></td>
+         <td class="align-middle">
+             <i class="fas fa-toolbox">&nbsp;{{ namnlista.las_lista}} </i>
+              </td>
+         <td class="align-middle">
+             <i class="fas fa-wrench">&nbsp;{{ namnlista.utforare}} </i>
+              </td>
+         <td class="align-middle">
+             <i class="fas fa-hour-glass">&nbsp;{{ namnlista.start}} </i>
+              </td>
+         <td class="align-middle">
+             <i class="fas fa-checkered">&nbsp;{{ namnlista.avslut}} </i>
+              </td>
+        <td class="align-middle"><a href="/uppdatera/{{ namnlista.id }}"><button type="button" class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button></a></td>
+
+        <td class="align-middle" style="border-bottom">
+            <form action="/del/{{ namnlista.id }}" method="post">
+               {% csrf_token %}
+              <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
+          </form>
+        </td>
+        </tr>
+  </tbody>
+          {% endfor %}
+</table>
+{% load static %}
+
+
+
+ {% endblock %}
+</body>
+</html>

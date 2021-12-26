@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+     <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Title</title>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
+
+</head>
+<body>
+{% extends "menu.html" %}
+ {% load static %}
+ {% block page_content %}
+<br>
+<b>PU-LISTA PS FIBER</b><br><br>
+
+<table class="table table-striped table-hover text-center">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Avd</th>
+      <th scope="col">Beskrivning</th>
+      <th scope="col">År</th>
+      <th scope="col">Kostnad MSEK</th>
+        <th scope="col">Projekt-nr</th>
+        <th scope="col">Utförande sektion</th>
+         <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for pulistan in context %}
+    <tr>
+      <th scope="row">{{ pulistan.avd }}</th>
+      <td>{{ pulistan.beskrivning }}</td>
+      <td>{{ pulistan.artal }}</td>
+        <td>{{ pulistan.kostnad }}</td>
+        <td>{{ pulistan.projektnr }}</td>
+      <td>{{ pulistan.utforare }}</td>
+        <td> <a href="" style="color:red;"><img src="{% static 'img/pdf1.png' %}"/></a>
+        </td>
+        <td><a href="/askande/{{ pulistan.id }}" title="Generera PU1-äskande" style="color:green;"><img src="{% static 'img/excel.png' %}"/></a></td></td>
+
+           <td>
+               {% csrf_token %}
+               <a href="/redigera/{{ pulistan.id }}">  <button type="button" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></button></a>
+          </td>
+        <td>
+            <form action="/remove/{{ pulistan.id }}" method="post">
+               {% csrf_token %}
+              <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Är det säkert att du vill radera?');"><i class="fas fa-trash-alt"></i></button>
+          </form></td>
+    </tr>
+
+  {% endfor %}
+  </tbody>
+      <tfoot class="thead-dark">
+        <tr>
+            <th scope="row">Summa</th>
+            <th></th>
+            <th></th>
+            <th><b>14.5</b></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+              <th></th>
+        </tr>
+    </tfoot>
+</table>
+     {% endblock %}
+</body>
+</html>
+

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+<body>
+
+{% extends "menu.html" %}
+ {% load static %}
+{% load crispy_forms_tags %}
+ {% block page_content %}
+<div class="container">
+        {% for pulistan in context %}
+        <form action="{% url 'redigera' pulistan.id %}" method="post">
+          {% csrf_token %}
+    {{ form | crispy}}
+            <button type="submit" class="btn btn-info">Spara</button>&nbsp;&nbsp;<a href="{% url 'skapa_askande' pulistan.id %}">  <button type="button" class="btn btn-warning">Generera äskande</button></a>
+
+</form>
+    </div>
+
+<br><br>
+ {% endfor%}
+{% endblock %}
+</body>
+</html>
